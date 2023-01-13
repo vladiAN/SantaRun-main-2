@@ -20,7 +20,7 @@ extension GameScene {
         
         if onGround == true {
             setupHeroForSwipe()
-            hero.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 230))
+            hero.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 250))
             
             let heroJumpTextureArray = SKAction.animate(with: heroJumpTextureArray, timePerFrame: 0.06)
             hero.run(heroJumpTextureArray)

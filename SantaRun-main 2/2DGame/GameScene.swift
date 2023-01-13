@@ -75,7 +75,7 @@ class GameScene: SKScene {
         createGround()
         createHero()
         createGeneralSnow()
-        addSnowMan()
+        createSnowMan()
         
         swipe()
         
@@ -157,7 +157,7 @@ class GameScene: SKScene {
     
     
     // MARK: - Сніговик
-    func addSnowMan() {
+    func addSnowMan() -> SKSpriteNode {
         snowMan = SKSpriteNode(texture: snowManTexture)
         
         let snowManAnimation = SKAction.animate(with: snowManTextureArray, timePerFrame: 0.2)
@@ -180,14 +180,28 @@ class GameScene: SKScene {
         snowMan.physicsBody?.isDynamic = true
         snowMan.physicsBody?.categoryBitMask = BitMasks.enemy
         snowMan.physicsBody?.contactTestBitMask = BitMasks.hero
-        snowMan.physicsBody?.collisionBitMask = BitMasks.hero
+        //snowMan.physicsBody?.collisionBitMask = BitMasks.hero
         
         snowMan.physicsBody?.affectedByGravity = false
         
         snowMan.zPosition = 1
         
         
-        snowManObjeckt.addChild(snowMan)
+        //snowManObjeckt.addChild(snowMan)
+        
+        return snowMan
+    }
+    
+    func createSnowMan() {
+        let createSnowMan = SKAction.run {
+            let snowMan = self.addSnowMan()
+            self.addChild(snowMan)
+        }
+        let snowManCreationDelay = SKAction.wait(forDuration: .random(in: 3...10), withRange: 1)
+        let snowManSequenceAction = SKAction.sequence([createSnowMan,snowManCreationDelay])
+        let snowManRunAction = SKAction.repeatForever(snowManSequenceAction)
+        
+        run(snowManRunAction)
     }
     
     
