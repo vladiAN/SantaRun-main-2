@@ -80,7 +80,8 @@ class GameScene: SKScene {
         swipe()
         
     }
-
+    
+    // MARK: - Бекграунд
     func createBg() {
         bgTexture = SKTexture(imageNamed: "bg winter")
         
@@ -99,6 +100,7 @@ class GameScene: SKScene {
         }
     }
     
+    // MARK: - Земля
     func createGround() {
         ground = SKSpriteNode()
         ground.position.y = self.position.y - 150
@@ -112,6 +114,7 @@ class GameScene: SKScene {
         groundObjeckt.addChild(ground)
     }
     
+    // MARK: - Санта
     func addHero(heroNode: SKSpriteNode, atPosition position: CGPoint) {
         hero = SKSpriteNode(texture: heroTexture)
         
@@ -137,18 +140,6 @@ class GameScene: SKScene {
         heroObjeckt.addChild(hero)
     }
     
-    func createSnowMan() {
-        snowMan = SKSpriteNode(texture: snowManTexture)
-        
-        let snowManAnimation = SKAction.animate(with: snowManTextureArray, timePerFrame: 0.2)
-        let snowManIdle = SKAction.repeatForever(snowManAnimation)
-        snowMan.run(snowManIdle)
-        
-        snowMan.size = hero.size
-        
-        snowManObjeckt.addChild(snowMan)
-    }
-    
     func createHero() {
         addHero(heroNode: hero, atPosition: CGPoint(x: self.frame.minX + 120, y: 0))
     }
@@ -165,6 +156,23 @@ class GameScene: SKScene {
         
     }
     
+    
+    // MARK: - Сніговик
+    func createSnowMan() {
+        snowMan = SKSpriteNode(texture: snowManTexture)
+        
+        let snowManAnimation = SKAction.animate(with: snowManTextureArray, timePerFrame: 0.2)
+        let snowManIdle = SKAction.repeatForever(snowManAnimation)
+        snowMan.run(snowManIdle)
+        
+        snowMan.size.height = snowMan.size.height / 6
+        snowMan.size.width = snowMan.size.width / 6
+        
+        snowManObjeckt.addChild(snowMan)
+    }
+    
+    
+    // MARK: - Сніг
     func createGeneralSnow() {
         let generalSnow = SKEmitterNode(fileNamed: "GeneralSnow.sks")!
         generalSnowObjeckt.zPosition = 2
