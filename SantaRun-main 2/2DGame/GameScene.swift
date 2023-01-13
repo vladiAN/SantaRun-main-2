@@ -11,21 +11,25 @@ import GameplayKit
 struct BitMasks {
     static let hero: UInt32 = 1
     static let ground: UInt32 = 2
+    static let enemy: UInt32 = 4
 }
 
 class GameScene: SKScene {
 
     var bgTexture: SKTexture!
     var heroTexture: SKTexture!
+    var snowManTexture: SKTexture!
     
     var bg = SKSpriteNode()
     var hero = SKSpriteNode()
     var ground = SKSpriteNode()
-    
+    var snowMan = SKSpriteNode()
+     
     var bgObjeckt = SKNode()
     var heroObjeckt = SKNode()
     var groundObjeckt = SKNode()
     var generalSnowObjeckt = SKNode()
+    var snowManObjeckt = SKNode()
     
     var onGround = true
 
@@ -38,6 +42,9 @@ class GameScene: SKScene {
     var heroSlideTextureArray = Array(1...11).map { int in
         SKTexture(imageNamed: "Slide (\(int))")
     }
+    var snowManTextureArray = Array(1...7).map { int in
+        SKTexture(imageNamed: "SnowManIdle\(int)")
+    }
 
     override func didMove(to view: SKView) {
         
@@ -45,6 +52,7 @@ class GameScene: SKScene {
         
         bgTexture = SKTexture(imageNamed: "bg winter")
         heroTexture = SKTexture(imageNamed: "Run (1)")
+        snowManTexture = SKTexture(imageNamed: "SnowManIdle1")
         
         createObjects()
         createGame()
@@ -57,6 +65,7 @@ class GameScene: SKScene {
         self.addChild(groundObjeckt)
         self.addChild(heroObjeckt)
         self.addChild(generalSnowObjeckt)
+        self.addChild(snowManObjeckt)
           
     }
     
@@ -66,6 +75,7 @@ class GameScene: SKScene {
         createGround()
         createHero()
         createGeneralSnow()
+        createSnowMan()
         
         swipe()
         
@@ -125,6 +135,18 @@ class GameScene: SKScene {
         hero.zPosition = 1
         
         heroObjeckt.addChild(hero)
+    }
+    
+    func createSnowMan() {
+        snowMan = SKSpriteNode(texture: snowManTexture)
+        
+        let snowManAnimation = SKAction.animate(with: snowManTextureArray, timePerFrame: 0.2)
+        let snowManIdle = SKAction.repeatForever(snowManAnimation)
+        snowMan.run(snowManIdle)
+        
+        snowMan.size = hero.size
+        
+        snowManObjeckt.addChild(snowMan)
     }
     
     func createHero() {
