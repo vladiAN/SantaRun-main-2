@@ -37,7 +37,7 @@ extension GameScene {
         heroJumpTextureArray,
         returnToRunPhysicsBody,
         SKAction.run({ [self] in
-            self.hero.physicsBody = SKPhysicsBody(texture: SKTexture(imageNamed: "Run (1)"), size: hero.size)
+            self.hero.physicsBody = SKPhysicsBody(texture: SKTexture(imageNamed: "Run (2)"), size: hero.size)
         })
         ]))
         

@@ -51,7 +51,7 @@ class GameScene: SKScene {
         physicsWorld.contactDelegate = self
         
         bgTexture = SKTexture(imageNamed: "bg winter")
-        heroTexture = SKTexture(imageNamed: "Run (1)")
+        heroTexture = SKTexture(imageNamed: "Run (2)")
         snowManTexture = SKTexture(imageNamed: "SnowManIdle1")
         
         createObjects()
@@ -130,8 +130,7 @@ class GameScene: SKScene {
         
         hero.physicsBody?.categoryBitMask = BitMasks.hero
         hero.physicsBody?.contactTestBitMask = BitMasks.ground
-        hero.physicsBody?.collisionBitMask = BitMasks.ground
-        
+        hero.physicsBody?.collisionBitMask = BitMasks.ground | BitMasks.enemy
         hero.physicsBody?.isDynamic = true
         hero.physicsBody?.allowsRotation = false
         hero.physicsBody?.restitution = 0.0
@@ -170,12 +169,22 @@ class GameScene: SKScene {
         
         snowMan.physicsBody = SKPhysicsBody(texture: snowManTexture!, size: snowMan.size)
         
-        snowMan.position = CGPoint(x: self.size.width + 50, y: 0)
+        snowMan.position.y = ground.position.y + (snowMan.size.height / 2) + 11
+       // snowMan.position. = CGPoint(x: 0, y: ground.position.y + 10)
         
-        let moveSnowMan = SKAction.moveBy(x: -self.frame.size.width * 2, y: 0, duration: 5)
+        let moveSnowMan = SKAction.moveBy(x: -self.frame.size.width, y: 0, duration: 5)
         let removeAction = SKAction.removeFromParent()
         let snowManMoveBg = SKAction.repeatForever(SKAction.sequence([moveSnowMan,removeAction]))
         snowMan.run(snowManMoveBg)
+        
+        snowMan.physicsBody?.isDynamic = true
+        snowMan.physicsBody?.categoryBitMask = BitMasks.enemy
+        snowMan.physicsBody?.contactTestBitMask = BitMasks.hero
+        snowMan.physicsBody?.collisionBitMask = BitMasks.hero
+        
+        snowMan.physicsBody?.affectedByGravity = false
+        
+        snowMan.zPosition = 1
         
         
         snowManObjeckt.addChild(snowMan)
