@@ -75,7 +75,7 @@ class GameScene: SKScene {
         createGround()
         createHero()
         createGeneralSnow()
-        createSnowMan()
+        addSnowMan()
         
         swipe()
         
@@ -158,7 +158,7 @@ class GameScene: SKScene {
     
     
     // MARK: - Сніговик
-    func createSnowMan() {
+    func addSnowMan() {
         snowMan = SKSpriteNode(texture: snowManTexture)
         
         let snowManAnimation = SKAction.animate(with: snowManTextureArray, timePerFrame: 0.2)
@@ -167,6 +167,16 @@ class GameScene: SKScene {
         
         snowMan.size.height = snowMan.size.height / 6
         snowMan.size.width = snowMan.size.width / 6
+        
+        snowMan.physicsBody = SKPhysicsBody(texture: snowManTexture!, size: snowMan.size)
+        
+        snowMan.position = CGPoint(x: self.size.width + 50, y: 0)
+        
+        let moveSnowMan = SKAction.moveBy(x: -self.frame.size.width * 2, y: 0, duration: 5)
+        let removeAction = SKAction.removeFromParent()
+        let snowManMoveBg = SKAction.repeatForever(SKAction.sequence([moveSnowMan,removeAction]))
+        snowMan.run(snowManMoveBg)
+        
         
         snowManObjeckt.addChild(snowMan)
     }
