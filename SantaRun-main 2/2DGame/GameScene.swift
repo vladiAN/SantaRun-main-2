@@ -19,17 +19,20 @@ class GameScene: SKScene {
     var bgTexture: SKTexture!
     var heroTexture: SKTexture!
     var snowManTexture: SKTexture!
+    var birdTexture: SKTexture!
     
     var bg = SKSpriteNode()
     var hero = SKSpriteNode()
     var ground = SKSpriteNode()
     var snowMan = SKSpriteNode()
+    var bird = SKSpriteNode()
      
     var bgObjeckt = SKNode()
     var heroObjeckt = SKNode()
     var groundObjeckt = SKNode()
     var generalSnowObjeckt = SKNode()
     var snowManObjeckt = SKNode()
+    var birdObjeckt = SKNode()
     
     var onGround = true
 
@@ -45,6 +48,9 @@ class GameScene: SKScene {
     var snowManTextureArray = Array(1...7).map { int in
         SKTexture(imageNamed: "SnowManIdle\(int)")
     }
+    var birdTextureArray = Array(1...16).map { int in
+        SKTexture(imageNamed: "bird\(int)")
+    }
 
     override func didMove(to view: SKView) {
         
@@ -53,6 +59,7 @@ class GameScene: SKScene {
         bgTexture = SKTexture(imageNamed: "bg winter")
         heroTexture = SKTexture(imageNamed: "Run (2)")
         snowManTexture = SKTexture(imageNamed: "SnowManIdle1")
+        birdTexture = SKTexture(imageNamed: "bird0")
         
         createObjects()
         createGame()
@@ -66,6 +73,7 @@ class GameScene: SKScene {
         self.addChild(heroObjeckt)
         self.addChild(generalSnowObjeckt)
         self.addChild(snowManObjeckt)
+        self.addChild(birdObjeckt)
           
     }
     
@@ -76,6 +84,7 @@ class GameScene: SKScene {
         createHero()
         createGeneralSnow()
         createSnowMan()
+        createBird()
         
         swipe()
         
@@ -180,14 +189,10 @@ class GameScene: SKScene {
         snowMan.physicsBody?.isDynamic = true
         snowMan.physicsBody?.categoryBitMask = BitMasks.enemy
         snowMan.physicsBody?.contactTestBitMask = BitMasks.hero
-        //snowMan.physicsBody?.collisionBitMask = BitMasks.hero
         
         snowMan.physicsBody?.affectedByGravity = false
         
         snowMan.zPosition = 1
-        
-        
-        //snowManObjeckt.addChild(snowMan)
         
         return snowMan
     }
@@ -197,13 +202,57 @@ class GameScene: SKScene {
             let snowMan = self.addSnowMan()
             self.addChild(snowMan)
         }
-        let snowManCreationDelay = SKAction.wait(forDuration: .random(in: 3...10), withRange: 1)
+        let snowManCreationDelay = SKAction.wait(forDuration: .random(in: 5...10), withRange: 1)
         let snowManSequenceAction = SKAction.sequence([createSnowMan,snowManCreationDelay])
         let snowManRunAction = SKAction.repeatForever(snowManSequenceAction)
         
         run(snowManRunAction)
     }
     
+    // MARK: - Птичка
+    
+    func addBird() -> SKSpriteNode {
+        bird = SKSpriteNode(texture: birdTexture)
+        
+        let birdAnimation = SKAction.animate(with: birdTextureArray, timePerFrame: 0.05)
+        let birdFly = SKAction.repeatForever(birdAnimation)
+        bird.run(birdFly)
+        
+        bird.size.height = bird.size.height / 12
+        bird.size.width = bird.size.width / 12
+        
+        bird.physicsBody = SKPhysicsBody(texture: birdTexture!, size: bird.size)
+        
+        bird.position.y = ground.position.y + hero.size.height
+        bird.position.x = self.frame.size.width + 300
+        
+        let moveBird = SKAction.moveBy(x: -self.frame.size.width * 2, y: 0, duration: 8)
+        let removeAction = SKAction.removeFromParent()
+        let birdMoveBg = SKAction.repeatForever(SKAction.sequence([moveBird,removeAction]))
+        bird.run(birdMoveBg)
+        
+        bird.physicsBody?.isDynamic = true
+        bird.physicsBody?.categoryBitMask = BitMasks.enemy
+        bird.physicsBody?.contactTestBitMask = BitMasks.hero
+        
+        bird.physicsBody?.affectedByGravity = false
+        
+        bird.zPosition = 1
+        
+        return bird
+    }
+    
+    func createBird() {
+        let createBird = SKAction.run {
+            let bird = self.addBird()
+            self.addChild(bird)
+        }
+        let birdCreationDelay = SKAction.wait(forDuration: .random(in: 8...14), withRange: 0.5)
+        let birdSequenceAction = SKAction.sequence([createBird,birdCreationDelay])
+        let birdFlyAction = SKAction.repeatForever(birdSequenceAction)
+        
+        run(birdFlyAction)
+    }
     
     // MARK: - Сніг
     func createGeneralSnow() {
