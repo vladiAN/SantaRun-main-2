@@ -83,8 +83,8 @@ class GameScene: SKScene {
         createGround()
         createHero()
         createGeneralSnow()
-        createSnowMan()
-        createBird()
+        createEnemy()
+//        createBird()
         
         swipe()
         
@@ -197,17 +197,6 @@ class GameScene: SKScene {
         return snowMan
     }
     
-    func createSnowMan() {
-        let createSnowMan = SKAction.run {
-            let snowMan = self.addSnowMan()
-            self.addChild(snowMan)
-        }
-        let snowManCreationDelay = SKAction.wait(forDuration: .random(in: 5...10), withRange: 1)
-        let snowManSequenceAction = SKAction.sequence([createSnowMan,snowManCreationDelay])
-        let snowManRunAction = SKAction.repeatForever(snowManSequenceAction)
-        
-        run(snowManRunAction)
-    }
     
     // MARK: - Птичка
     
@@ -223,7 +212,7 @@ class GameScene: SKScene {
         
         bird.physicsBody = SKPhysicsBody(texture: birdTexture!, size: bird.size)
         
-        bird.position.y = ground.position.y + hero.size.height
+        bird.position.y = ground.position.y + hero.size.height - 10
         bird.position.x = self.frame.size.width + 300
         
         let moveBird = SKAction.moveBy(x: -self.frame.size.width * 2, y: 0, duration: 8)
@@ -242,17 +231,27 @@ class GameScene: SKScene {
         return bird
     }
     
-    func createBird() {
-        let createBird = SKAction.run {
-            let bird = self.addBird()
-            self.addChild(bird)
+    // MARK: - Додавання ворогів
+    
+    func createEnemy() {
+        let createEnemy = SKAction.run {
+            let snowManRandom = Bool.random()
+            if snowManRandom {
+                let snowMan = self.addSnowMan()
+                self.addChild(snowMan)
+            } else {
+                let bird = self.addBird()
+                self.addChild(bird)
+            }
+            
         }
-        let birdCreationDelay = SKAction.wait(forDuration: .random(in: 8...14), withRange: 0.5)
-        let birdSequenceAction = SKAction.sequence([createBird,birdCreationDelay])
-        let birdFlyAction = SKAction.repeatForever(birdSequenceAction)
+        let enemyCreationDelay = SKAction.wait(forDuration: .random(in: 4...6), withRange: 0.7)
+        let enemySequenceAction = SKAction.sequence([createEnemy,enemyCreationDelay])
+        let enemyRunAction = SKAction.repeatForever(enemySequenceAction)
         
-        run(birdFlyAction)
+        run(enemyRunAction)
     }
+    
     
     // MARK: - Сніг
     func createGeneralSnow() {
