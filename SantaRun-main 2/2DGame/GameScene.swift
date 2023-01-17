@@ -247,7 +247,10 @@ class GameScene: SKScene {
         
         presentBox.physicsBody = SKPhysicsBody(texture: presentBoxTexture!, size: presentBox.size)
         
-        presentBox.position.y = ground.position.y + hero.size.height - 5
+        let maxPositionYForPresentBox = hero.frame.height / 1.5
+        let minPositionYForPresentBox = ground.frame.maxY + (presentBox.frame.height / 2)
+        
+        presentBox.position.y = .random(in: minPositionYForPresentBox...maxPositionYForPresentBox)
         presentBox.position.x = self.frame.size.width + 300
         
         let movePresentBox = SKAction.moveBy(x: -self.frame.size.width * 2, y: 0, duration: 6)
@@ -270,15 +273,6 @@ class GameScene: SKScene {
     
     func createEnemy() {
         let createEnemy = SKAction.run {
-//            let snowManRandom = Bool.random()
-//            if snowManRandom {
-//                let snowMan = self.addSnowMan()
-//                self.addChild(snowMan)
-//            } else {
-//                let bird = self.addBird()
-//                self.addChild(bird)
-//            }
-            
             
            let randomIvent = Int.random(in: 1...3)
             switch randomIvent {
@@ -294,10 +288,9 @@ class GameScene: SKScene {
             default:
                 print("error")
             }
-            
-            
         }
-        let enemyCreationDelay = SKAction.wait(forDuration: .random(in: 2...4), withRange: 0.7)
+        
+        let enemyCreationDelay = SKAction.wait(forDuration: .random(in: 2...3), withRange: 1)
         let enemySequenceAction = SKAction.sequence([createEnemy,enemyCreationDelay])
         let enemyRunAction = SKAction.repeatForever(enemySequenceAction)
         
