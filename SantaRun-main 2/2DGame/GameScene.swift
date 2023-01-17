@@ -212,7 +212,7 @@ class GameScene: SKScene {
         
         bird.physicsBody = SKPhysicsBody(texture: birdTexture!, size: bird.size)
         
-        bird.position.y = ground.position.y + hero.size.height - 10
+        bird.position.y = ground.position.y + hero.size.height - 5
         bird.position.x = self.frame.size.width + 300
         
         let moveBird = SKAction.moveBy(x: -self.frame.size.width * 2, y: 0, duration: 8)
