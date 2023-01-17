@@ -12,6 +12,7 @@ struct BitMasks {
     static let hero: UInt32 = 1
     static let ground: UInt32 = 2
     static let enemy: UInt32 = 4
+    static let presentBox: UInt32 = 8
 }
 
 class GameScene: SKScene {
@@ -20,12 +21,14 @@ class GameScene: SKScene {
     var heroTexture: SKTexture!
     var snowManTexture: SKTexture!
     var birdTexture: SKTexture!
+    var presentBoxTexture: SKTexture!
     
     var bg = SKSpriteNode()
     var hero = SKSpriteNode()
     var ground = SKSpriteNode()
     var snowMan = SKSpriteNode()
     var bird = SKSpriteNode()
+    var presentBox = SKSpriteNode()
      
     var bgObjeckt = SKNode()
     var heroObjeckt = SKNode()
@@ -33,6 +36,7 @@ class GameScene: SKScene {
     var generalSnowObjeckt = SKNode()
     var snowManObjeckt = SKNode()
     var birdObjeckt = SKNode()
+    var presentBoxObjeckt = SKNode()
     
     var onGround = true
 
@@ -60,6 +64,7 @@ class GameScene: SKScene {
         heroTexture = SKTexture(imageNamed: "Run (2)")
         snowManTexture = SKTexture(imageNamed: "SnowManIdle1")
         birdTexture = SKTexture(imageNamed: "bird0")
+        presentBoxTexture = SKTexture(imageNamed: "present")
         
         createObjects()
         createGame()
@@ -74,6 +79,7 @@ class GameScene: SKScene {
         self.addChild(generalSnowObjeckt)
         self.addChild(snowManObjeckt)
         self.addChild(birdObjeckt)
+        self.addChild(presentBoxObjeckt)
           
     }
     
@@ -84,7 +90,7 @@ class GameScene: SKScene {
         createHero()
         createGeneralSnow()
         createEnemy()
-//        createBird()
+        
         
         swipe()
         
@@ -181,7 +187,7 @@ class GameScene: SKScene {
         snowMan.position.y = ground.position.y + (snowMan.size.height / 2) + 11
         snowMan.position.x = self.frame.size.width
         
-        let moveSnowMan = SKAction.moveBy(x: -self.frame.size.width * 2, y: 0, duration: 8)
+        let moveSnowMan = SKAction.moveBy(x: -self.frame.size.width * 2, y: 0, duration: 7)
         let removeAction = SKAction.removeFromParent()
         let snowManMoveBg = SKAction.repeatForever(SKAction.sequence([moveSnowMan,removeAction]))
         snowMan.run(snowManMoveBg)
@@ -215,7 +221,7 @@ class GameScene: SKScene {
         bird.position.y = ground.position.y + hero.size.height - 5
         bird.position.x = self.frame.size.width + 300
         
-        let moveBird = SKAction.moveBy(x: -self.frame.size.width * 2, y: 0, duration: 8)
+        let moveBird = SKAction.moveBy(x: -self.frame.size.width * 2, y: 0, duration: 6)
         let removeAction = SKAction.removeFromParent()
         let birdMoveBg = SKAction.repeatForever(SKAction.sequence([moveBird,removeAction]))
         bird.run(birdMoveBg)
@@ -231,21 +237,67 @@ class GameScene: SKScene {
         return bird
     }
     
+    // MARK: - Подарунок
+    
+    func addPresentBox() -> SKSpriteNode {
+        presentBox = SKSpriteNode(texture: presentBoxTexture)
+        
+        presentBox.size.height = presentBox.size.height / 8
+        presentBox.size.width = presentBox.size.width / 8
+        
+        presentBox.physicsBody = SKPhysicsBody(texture: presentBoxTexture!, size: presentBox.size)
+        
+        presentBox.position.y = ground.position.y + hero.size.height - 5
+        presentBox.position.x = self.frame.size.width + 300
+        
+        let movePresentBox = SKAction.moveBy(x: -self.frame.size.width * 2, y: 0, duration: 6)
+        let removeAction = SKAction.removeFromParent()
+        let presentBoxMoveBg = SKAction.repeatForever(SKAction.sequence([movePresentBox,removeAction]))
+        presentBox.run(presentBoxMoveBg)
+        
+        presentBox.physicsBody?.isDynamic = true
+        presentBox.physicsBody?.categoryBitMask = BitMasks.presentBox
+        presentBox.physicsBody?.contactTestBitMask = BitMasks.hero
+        
+        presentBox.physicsBody?.affectedByGravity = false
+        
+        presentBox.zPosition = 1
+        
+        return presentBox
+    }
+    
     // MARK: - Додавання ворогів
     
     func createEnemy() {
         let createEnemy = SKAction.run {
-            let snowManRandom = Bool.random()
-            if snowManRandom {
+//            let snowManRandom = Bool.random()
+//            if snowManRandom {
+//                let snowMan = self.addSnowMan()
+//                self.addChild(snowMan)
+//            } else {
+//                let bird = self.addBird()
+//                self.addChild(bird)
+//            }
+            
+            
+           let randomIvent = Int.random(in: 1...3)
+            switch randomIvent {
+            case 1:
                 let snowMan = self.addSnowMan()
                 self.addChild(snowMan)
-            } else {
+            case 2:
                 let bird = self.addBird()
                 self.addChild(bird)
+            case 3:
+                let presentBox = self.addPresentBox()
+                self.addChild(presentBox)
+            default:
+                print("error")
             }
             
+            
         }
-        let enemyCreationDelay = SKAction.wait(forDuration: .random(in: 4...6), withRange: 0.7)
+        let enemyCreationDelay = SKAction.wait(forDuration: .random(in: 2...4), withRange: 0.7)
         let enemySequenceAction = SKAction.sequence([createEnemy,enemyCreationDelay])
         let enemyRunAction = SKAction.repeatForever(enemySequenceAction)
         
@@ -267,31 +319,33 @@ class GameScene: SKScene {
 extension GameScene: SKPhysicsContactDelegate {
     func didBegin(_ contact: SKPhysicsContact) {
         
-        var groundBody: SKPhysicsBody
+        var enotherBody: SKPhysicsBody
         
         if contact.bodyA.categoryBitMask == BitMasks.hero {
-            groundBody = contact.bodyB
+            enotherBody = contact.bodyB
         } else {
-            groundBody = contact.bodyA
+            enotherBody = contact.bodyA
         }
         
-        if groundBody.categoryBitMask == BitMasks.ground {
+        if enotherBody.categoryBitMask == BitMasks.ground {
             onGround = true
             print(onGround)
+        } else if enotherBody.categoryBitMask == BitMasks.enemy {
+            // логіка мінус життя та мигання санти
         }
     }
 
     func didEnd(_ contact: SKPhysicsContact) {
 
-        var groundBody: SKPhysicsBody
+        var enotherBody: SKPhysicsBody
 
                 if contact.bodyA.categoryBitMask == BitMasks.hero {
-                    groundBody = contact.bodyB
+                    enotherBody = contact.bodyB
                 } else {
-                    groundBody = contact.bodyA
+                    enotherBody = contact.bodyA
                 }
 
-        if groundBody.categoryBitMask == BitMasks.ground {
+        if enotherBody.categoryBitMask == BitMasks.ground {
             onGround = false
             print(onGround)
         }
