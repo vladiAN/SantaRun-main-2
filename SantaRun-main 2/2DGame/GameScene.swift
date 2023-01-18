@@ -144,7 +144,7 @@ class GameScene: SKScene {
         hero.physicsBody = SKPhysicsBody(texture: hero.texture!, size: hero.size)
         
         hero.physicsBody?.categoryBitMask = BitMasks.hero
-        hero.physicsBody?.contactTestBitMask = BitMasks.ground | BitMasks.enemy
+        hero.physicsBody?.contactTestBitMask = BitMasks.ground | BitMasks.enemy | BitMasks.presentBox
         hero.physicsBody?.collisionBitMask = BitMasks.ground
         hero.physicsBody?.isDynamic = true
         hero.physicsBody?.allowsRotation = false
@@ -320,12 +320,19 @@ extension GameScene: SKPhysicsContactDelegate {
             enotherBody = contact.bodyA
         }
         
-        if enotherBody.categoryBitMask == BitMasks.ground {
+        switch enotherBody.categoryBitMask {
+        case BitMasks.ground:
             onGround = true
             print(onGround)
-        } else if enotherBody.categoryBitMask == BitMasks.enemy {
-            // логіка мінус життя та мигання санти
+        case BitMasks.enemy:
+            print("ouch -1 life points")
+        case BitMasks.presentBox:
+            print("+1 score")
+            enotherBody.node?.removeFromParent()
+        default:
+            print("contact unknown")
         }
+
     }
 
     func didEnd(_ contact: SKPhysicsContact) {
