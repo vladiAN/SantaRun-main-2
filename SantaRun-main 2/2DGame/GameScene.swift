@@ -23,6 +23,7 @@ class GameScene: SKScene {
     var birdTexture: SKTexture!
     var presentBoxTexture: SKTexture!
     
+    
     var bg = SKSpriteNode()
     var hero = SKSpriteNode()
     var ground = SKSpriteNode()
@@ -37,6 +38,13 @@ class GameScene: SKScene {
     var snowManObjeckt = SKNode()
     var birdObjeckt = SKNode()
     var presentBoxObjeckt = SKNode()
+    
+    var scoreLabel = SKLabelNode()
+    var score = 0 {
+        didSet {
+            scoreLabel.text = "Score: \(score)"
+        }
+    }
     
     var onGround = true
 
@@ -68,6 +76,12 @@ class GameScene: SKScene {
         
         createObjects()
         createGame()
+        
+        scoreLabel = SKLabelNode(fontNamed: "Chalkduster")
+        scoreLabel.text = "Score: \(score)"
+        scoreLabel.horizontalAlignmentMode = .right
+        scoreLabel.position = CGPoint(x: self.frame.width / 2, y: self.frame.height / 2)
+        addChild(scoreLabel)
         
     }
     
@@ -143,9 +157,8 @@ class GameScene: SKScene {
         
         hero.physicsBody = SKPhysicsBody(texture: hero.texture!, size: hero.size)
         
-        hero.physicsBody?.categoryBitMask = BitMasks.hero
-        hero.physicsBody?.contactTestBitMask = BitMasks.ground | BitMasks.enemy | BitMasks.presentBox
-        hero.physicsBody?.collisionBitMask = BitMasks.ground
+        heroBitMaskSet()
+        
         hero.physicsBody?.isDynamic = true
         hero.physicsBody?.allowsRotation = false
         hero.physicsBody?.restitution = 0.0
@@ -170,6 +183,12 @@ class GameScene: SKScene {
         
     }
     
+    func heroBitMaskSet() {
+        hero.physicsBody?.categoryBitMask = BitMasks.hero
+        hero.physicsBody?.contactTestBitMask = BitMasks.ground | BitMasks.enemy | BitMasks.presentBox
+        hero.physicsBody?.collisionBitMask = BitMasks.ground
+    }
+    
     
     // MARK: - Сніговик
     func addSnowMan() -> SKSpriteNode {
@@ -192,7 +211,7 @@ class GameScene: SKScene {
         let snowManMoveBg = SKAction.repeatForever(SKAction.sequence([moveSnowMan,removeAction]))
         snowMan.run(snowManMoveBg)
         
-        snowMan.physicsBody?.isDynamic = true
+        snowMan.physicsBody?.isDynamic = false
         snowMan.physicsBody?.categoryBitMask = BitMasks.enemy
         snowMan.physicsBody?.contactTestBitMask = BitMasks.hero
         
@@ -226,7 +245,7 @@ class GameScene: SKScene {
         let birdMoveBg = SKAction.repeatForever(SKAction.sequence([moveBird,removeAction]))
         bird.run(birdMoveBg)
         
-        bird.physicsBody?.isDynamic = true
+        bird.physicsBody?.isDynamic = false
         bird.physicsBody?.categoryBitMask = BitMasks.enemy
         bird.physicsBody?.contactTestBitMask = BitMasks.hero
         
@@ -306,7 +325,6 @@ class GameScene: SKScene {
         generalSnow.position = CGPoint(x: self.frame.midX, y: self.frame.maxY)
         generalSnow.advanceSimulationTime(50)
     }
-    
 }
 
 extension GameScene: SKPhysicsContactDelegate {
@@ -326,13 +344,23 @@ extension GameScene: SKPhysicsContactDelegate {
             print(onGround)
         case BitMasks.enemy:
             print("ouch -1 life points")
+            let pulsedRed = SKAction.sequence([
+                SKAction.colorize(with: .red, colorBlendFactor: 1.0, duration: 0.5),
+                SKAction.wait(forDuration: 0.1),
+                SKAction.colorize(withColorBlendFactor: 0.0, duration: 0.15)
+            ])
+            hero.run(pulsedRed)
         case BitMasks.presentBox:
-            print("+1 score")
-            enotherBody.node?.removeFromParent()
+            if enotherBody.node?.parent != nil {
+                enotherBody.node?.removeFromParent()
+                score += 1
+                print("+1 score")
+            }
+            
         default:
             print("contact unknown")
+            
         }
-
     }
 
     func didEnd(_ contact: SKPhysicsContact) {

@@ -31,6 +31,8 @@ extension GameScene {
         setupHeroForSwipe()
         hero.physicsBody = SKPhysicsBody(texture: SKTexture(imageNamed: "Slide (1)"), size: hero.size)
         
+        heroBitMaskSet()
+        
         let heroJumpTextureArray = SKAction.animate(with: heroSlideTextureArray, timePerFrame: 0.1)
         let returnToRunPhysicsBody = SKAction.wait(forDuration: 0)
         hero.run(SKAction.sequence([
@@ -38,6 +40,7 @@ extension GameScene {
         returnToRunPhysicsBody,
         SKAction.run({ [self] in
             self.hero.physicsBody = SKPhysicsBody(texture: SKTexture(imageNamed: "Run (2)"), size: hero.size)
+            heroBitMaskSet()
         })
         ]))
         
