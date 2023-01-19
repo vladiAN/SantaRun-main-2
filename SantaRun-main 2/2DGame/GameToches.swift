@@ -20,7 +20,7 @@ extension GameScene {
         
         if onGround == true {
             setupHeroForSwipe()
-            hero.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 200))
+            hero.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 300))
             
             let heroJumpTextureArray = SKAction.animate(with: heroJumpTextureArray, timePerFrame: 0.06)
             hero.run(heroJumpTextureArray)
@@ -29,22 +29,22 @@ extension GameScene {
     
     @objc func swipeDown() {
         setupHeroForSwipe()
-        hero.physicsBody = SKPhysicsBody(texture: SKTexture(imageNamed: "Slide (1)"), size: hero.size)
+        hero.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: hero.size.width - 160, height: hero.size.height - 70),
+                                         center: CGPoint(x: -40, y: -10))
         
         heroBitMaskSet()
         
         let heroJumpTextureArray = SKAction.animate(with: heroSlideTextureArray, timePerFrame: 0.1)
         let returnToRunPhysicsBody = SKAction.wait(forDuration: 0)
         hero.run(SKAction.sequence([
-        heroJumpTextureArray,
-        returnToRunPhysicsBody,
-        SKAction.run({ [self] in
-            self.hero.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: hero.size.width / 4, height: hero.size.height / 2))
-            heroBitMaskSet()
-        })
+            heroJumpTextureArray,
+            returnToRunPhysicsBody,
+            SKAction.run({ [self] in
+                self.hero.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: hero.size.width - 160, height: hero.size.height - 20),
+                                                      center: CGPoint(x: -20, y: 5))
+                heroBitMaskSet()
+            })
         ]))
-        
-        
     }
     
 }

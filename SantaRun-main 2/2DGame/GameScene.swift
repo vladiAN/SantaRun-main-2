@@ -16,7 +16,7 @@ struct BitMasks {
 }
 
 class GameScene: SKScene {
-
+    
     var bgTexture: SKTexture!
     var heroTexture: SKTexture!
     var snowManTexture: SKTexture!
@@ -30,7 +30,7 @@ class GameScene: SKScene {
     var snowMan = SKSpriteNode()
     var bird = SKSpriteNode()
     var presentBox = SKSpriteNode()
-     
+    
     var bgObjeckt = SKNode()
     var heroObjeckt = SKNode()
     var groundObjeckt = SKNode()
@@ -47,7 +47,7 @@ class GameScene: SKScene {
     }
     
     var onGround = true
-
+    
     var heroRunTextureArray = Array(1...11).map { int in
         SKTexture(imageNamed: "Run (\(int))")
     }
@@ -63,7 +63,7 @@ class GameScene: SKScene {
     var birdTextureArray = Array(1...16).map { int in
         SKTexture(imageNamed: "bird\(int)")
     }
-
+    
     override func didMove(to view: SKView) {
         
         physicsWorld.contactDelegate = self
@@ -80,7 +80,7 @@ class GameScene: SKScene {
         scoreLabel = SKLabelNode(fontNamed: "Chalkduster")
         scoreLabel.text = "Score: \(score)"
         scoreLabel.horizontalAlignmentMode = .right
-        scoreLabel.position = CGPoint(x: self.frame.width / 2 - 20, y: self.frame.height / 4)
+        scoreLabel.position = CGPoint(x: self.frame.width - 20, y: self.frame.height - 40)
         addChild(scoreLabel)
         
     }
@@ -94,7 +94,7 @@ class GameScene: SKScene {
         self.addChild(snowManObjeckt)
         self.addChild(birdObjeckt)
         self.addChild(presentBoxObjeckt)
-          
+        
     }
     
     func createGame() {
@@ -156,7 +156,8 @@ class GameScene: SKScene {
         hero.size.height = hero.size.height / 4
         hero.size.width = hero.size.width / 4
         
-        hero.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: hero.size.width, height: hero.size.height))
+        hero.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: hero.size.width - 160, height: hero.size.height - 20),
+                                         center: CGPoint(x: -20, y: 5))
         
         heroBitMaskSet()
         
@@ -207,7 +208,7 @@ class GameScene: SKScene {
         snowMan.position.y = ground.position.y + (snowMan.size.height / 2) + 11
         snowMan.position.x = self.frame.size.width
         
-        let moveSnowMan = SKAction.moveBy(x: -self.frame.size.width * 2, y: 0, duration: 7)
+        let moveSnowMan = SKAction.moveBy(x: -self.frame.size.width * 2, y: 0, duration: 6)
         let removeAction = SKAction.removeFromParent()
         let snowManMoveBg = SKAction.repeatForever(SKAction.sequence([moveSnowMan,removeAction]))
         snowMan.run(snowManMoveBg)
@@ -236,7 +237,7 @@ class GameScene: SKScene {
         bird.size.height = bird.size.height / 12
         bird.size.width = bird.size.width / 12
         
-        bird.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: bird.size.width, height: bird.size.height))
+        bird.physicsBody = SKPhysicsBody(circleOfRadius: bird.size.height / 2)
         
         bird.position.y = ground.position.y + hero.size.height
         bird.position.x = self.frame.size.width + 300
@@ -294,7 +295,7 @@ class GameScene: SKScene {
     func createEnemy() {
         let createEnemy = SKAction.run {
             
-           let randomIvent = Int.random(in: 1...3)
+            let randomIvent = Int.random(in: 1...3)
             switch randomIvent {
             case 1:
                 let snowMan = self.addSnowMan()
@@ -363,17 +364,17 @@ extension GameScene: SKPhysicsContactDelegate {
             
         }
     }
-
+    
     func didEnd(_ contact: SKPhysicsContact) {
-
+        
         var enotherBody: SKPhysicsBody
-
-                if contact.bodyA.categoryBitMask == BitMasks.hero {
-                    enotherBody = contact.bodyB
-                } else {
-                    enotherBody = contact.bodyA
-                }
-
+        
+        if contact.bodyA.categoryBitMask == BitMasks.hero {
+            enotherBody = contact.bodyB
+        } else {
+            enotherBody = contact.bodyA
+        }
+        
         if enotherBody.categoryBitMask == BitMasks.ground {
             onGround = false
             print(onGround)
