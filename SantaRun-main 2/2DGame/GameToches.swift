@@ -29,8 +29,8 @@ extension GameScene {
     
     @objc func swipeDown() {
         setupHeroForSwipe()
-        hero.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: hero.size.width - 160, height: hero.size.height - 70),
-                                         center: CGPoint(x: -40, y: -10))
+        hero.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: hero.size.width - 120, height: hero.size.height - 80),
+                                         center: CGPoint(x: -40, y: -30))
         
         heroBitMaskSet()
         
