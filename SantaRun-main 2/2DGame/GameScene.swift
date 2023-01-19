@@ -120,7 +120,8 @@ class GameScene: SKScene {
         
         for i in 0..<3 {
             bg = SKSpriteNode(texture: bgTexture)
-            bg.position = CGPoint(x: bgTexture.size().width * CGFloat(i), y: 50)
+            bg.position = CGPoint(x: bgTexture.size().width * CGFloat(i), y: size.height / 2)
+            bg.size.height = self.frame.height
             bg.run(moveBrRepeat)
             bg.zPosition = -10
             
@@ -132,8 +133,8 @@ class GameScene: SKScene {
     // MARK: - Земля
     func createGround() {
         ground = SKSpriteNode()
-        ground.position.y = self.position.y - 150
         ground.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: self.frame.width, height: 20))
+        ground.position.y = self.position.y + 40
         ground.physicsBody?.isDynamic = false
         ground.physicsBody?.categoryBitMask = BitMasks.ground
         ground.physicsBody?.contactTestBitMask = BitMasks.hero
@@ -155,7 +156,7 @@ class GameScene: SKScene {
         hero.size.height = hero.size.height / 4
         hero.size.width = hero.size.width / 4
         
-        hero.physicsBody = SKPhysicsBody(texture: hero.texture!, size: hero.size)
+        hero.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: hero.size.width, height: hero.size.height))
         
         heroBitMaskSet()
         
@@ -168,7 +169,7 @@ class GameScene: SKScene {
     }
     
     func createHero() {
-        addHero(heroNode: hero, atPosition: CGPoint(x: self.frame.minX + 120, y: 0))
+        addHero(heroNode: hero, atPosition: CGPoint(x: self.frame.minX + 120, y: ground.position.y + 20))
     }
     
     func swipe() {
@@ -201,7 +202,7 @@ class GameScene: SKScene {
         snowMan.size.height = snowMan.size.height / 7
         snowMan.size.width = snowMan.size.width / 7
         
-        snowMan.physicsBody = SKPhysicsBody(texture: snowManTexture!, size: snowMan.size)
+        snowMan.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: snowMan.size.width, height: snowMan.size.height))
         
         snowMan.position.y = ground.position.y + (snowMan.size.height / 2) + 11
         snowMan.position.x = self.frame.size.width
@@ -235,9 +236,9 @@ class GameScene: SKScene {
         bird.size.height = bird.size.height / 12
         bird.size.width = bird.size.width / 12
         
-        bird.physicsBody = SKPhysicsBody(texture: birdTexture!, size: bird.size)
+        bird.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: bird.size.width, height: bird.size.height))
         
-        bird.position.y = ground.position.y + hero.size.height - 5
+        bird.position.y = ground.position.y + hero.size.height
         bird.position.x = self.frame.size.width + 300
         
         let moveBird = SKAction.moveBy(x: -self.frame.size.width * 2, y: 0, duration: 6)
@@ -344,15 +345,8 @@ extension GameScene: SKPhysicsContactDelegate {
             print(onGround)
         case BitMasks.enemy:
             print("ouch -1 life points")
-            enotherBody.contactTestBitMask = 0
-//            enotherBody.node!.physicsBody = nil
-            if enotherBody.node?.parent != nil {
-                enotherBody.node?.removeFromParent()
-            }else {
-                print("!")
-            }
             let pulsedRed = SKAction.sequence([
-                SKAction.colorize(with: .red, colorBlendFactor: 1.0, duration: 0.5),
+                SKAction.colorize(with: .red, colorBlendFactor: 1.0, duration: 0.2),
                 SKAction.wait(forDuration: 0.1),
                 SKAction.colorize(withColorBlendFactor: 0.0, duration: 0.15)
             ])
