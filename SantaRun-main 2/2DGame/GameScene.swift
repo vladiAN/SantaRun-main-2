@@ -80,7 +80,7 @@ class GameScene: SKScene {
         scoreLabel = SKLabelNode(fontNamed: "Chalkduster")
         scoreLabel.text = "Score: \(score)"
         scoreLabel.horizontalAlignmentMode = .right
-        scoreLabel.position = CGPoint(x: self.frame.width / 2, y: self.frame.height / 2)
+        scoreLabel.position = CGPoint(x: self.frame.width / 2 - 20, y: self.frame.height / 4)
         addChild(scoreLabel)
         
     }
@@ -344,6 +344,13 @@ extension GameScene: SKPhysicsContactDelegate {
             print(onGround)
         case BitMasks.enemy:
             print("ouch -1 life points")
+            enotherBody.contactTestBitMask = 0
+//            enotherBody.node!.physicsBody = nil
+            if enotherBody.node?.parent != nil {
+                enotherBody.node?.removeFromParent()
+            }else {
+                print("!")
+            }
             let pulsedRed = SKAction.sequence([
                 SKAction.colorize(with: .red, colorBlendFactor: 1.0, duration: 0.5),
                 SKAction.wait(forDuration: 0.1),

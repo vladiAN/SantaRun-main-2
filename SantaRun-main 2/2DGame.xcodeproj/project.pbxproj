@@ -18,6 +18,7 @@
 		93A5264929683497005B4066 /* GameToches.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93A5264829683497005B4066 /* GameToches.swift */; };
 		93A91FD8296B706C00E6E51C /* GeneralSnow.sks in Resources */ = {isa = PBXBuildFile; fileRef = 93A91FD6296B706C00E6E51C /* GeneralSnow.sks */; };
 		93A91FD9296B706C00E6E51C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 93A91FD7296B706C00E6E51C /* Assets.xcassets */; };
+		C04A0D9D2979B7E2002F6B0D /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04A0D9C2979B7E2002F6B0D /* MenuScene.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,6 +34,7 @@
 		93A5264829683497005B4066 /* GameToches.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameToches.swift; sourceTree = "<group>"; };
 		93A91FD6296B706C00E6E51C /* GeneralSnow.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GeneralSnow.sks; sourceTree = "<group>"; };
 		93A91FD7296B706C00E6E51C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		C04A0D9C2979B7E2002F6B0D /* MenuScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -70,6 +72,7 @@
 				93A91FD6296B706C00E6E51C /* GeneralSnow.sks */,
 				93A4DDD42966E81B0054117D /* GameScene.sks */,
 				93A4DDD62966E81B0054117D /* Actions.sks */,
+				C04A0D9C2979B7E2002F6B0D /* MenuScene.swift */,
 				93A4DDD82966E81B0054117D /* GameScene.swift */,
 				93A4DDDA2966E81B0054117D /* GameViewController.swift */,
 				93A5264829683497005B4066 /* GameToches.swift */,
@@ -157,6 +160,7 @@
 			files = (
 				93A4DDD92966E81B0054117D /* GameScene.swift in Sources */,
 				93A4DDDB2966E81B0054117D /* GameViewController.swift in Sources */,
+				C04A0D9D2979B7E2002F6B0D /* MenuScene.swift in Sources */,
 				93A4DDD32966E81B0054117D /* AppDelegate.swift in Sources */,
 				93A5264929683497005B4066 /* GameToches.swift in Sources */,
 			);
@@ -314,8 +318,6 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UIStatusBarHidden = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -343,8 +345,6 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UIStatusBarHidden = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
