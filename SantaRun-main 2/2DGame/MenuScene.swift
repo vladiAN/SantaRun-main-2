@@ -14,13 +14,12 @@ class MenuScene: SKScene {
         self.backgroundColor = SKColor(red: 0.15, green: 0.15, blue: 0.3, alpha: 1.0)
         
         
-        let texture = SKTexture(imageNamed: "play-button")
-        let button = SKSpriteNode(texture: texture)
-        button.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
-        button.size.height = button.size.height / 6
-        button.size.width = button.size.width / 6
-        button.name = "runButton"
-        self.addChild(button)
+        let header = SKSpriteNode(imageNamed: "Logo1")
+        
+        header.size.height = header.size.height / 2
+        header.size.width = header.size.width / 2
+        header.position = CGPoint(x: self.frame.midX, y: self.frame.maxY - (header.frame.height / 2) - 16 )
+        self.addChild(header)
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
