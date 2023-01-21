@@ -11,7 +11,7 @@ class MenuScene: SKScene {
     
     override func didMove(to view: SKView) {
         
-        self.backgroundColor = SKColor(red: 0.61, green: 0.88, blue: 1.00, alpha: 1.00)
+        self.backgroundColor = SKColor(red: 0.2745, green: 0.498, blue: 0.6235, alpha: 1.0)
         
         let logo = SKSpriteNode(imageNamed: "Logo1")
         

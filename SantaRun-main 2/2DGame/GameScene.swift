@@ -39,6 +39,7 @@ class GameScene: SKScene {
     var birdObjeckt = SKNode()
     var presentBoxObjeckt = SKNode()
     
+    var settingButton = SKSpriteNode()
     var scoreLabel = SKLabelNode()
     var score = 0 {
         didSet {
@@ -77,12 +78,6 @@ class GameScene: SKScene {
         createObjects()
         createGame()
         
-        scoreLabel = SKLabelNode(fontNamed: "Chalkduster")
-        scoreLabel.text = "Score: \(score)"
-        scoreLabel.horizontalAlignmentMode = .right
-        scoreLabel.position = CGPoint(x: self.frame.width - 20, y: self.frame.height - 40)
-        addChild(scoreLabel)
-        
     }
     
     func createObjects() {
@@ -104,7 +99,8 @@ class GameScene: SKScene {
         createHero()
         createGeneralSnow()
         createEnemy()
-        
+        setLabel()
+        setPause()
         
         swipe()
         
@@ -171,18 +167,6 @@ class GameScene: SKScene {
     
     func createHero() {
         addHero(heroNode: hero, atPosition: CGPoint(x: self.frame.minX + 120, y: ground.position.y + 20))
-    }
-    
-    func swipe() {
-        
-        let swipeUp = UISwipeGestureRecognizer(target: self, action: #selector(swipeUp))
-        swipeUp.direction = .up
-        view?.addGestureRecognizer(swipeUp)
-        
-        let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(swipeDown))
-        swipeDown.direction = .down
-        view?.addGestureRecognizer(swipeDown)
-        
     }
     
     func heroBitMaskSet() {
@@ -319,6 +303,27 @@ class GameScene: SKScene {
     }
     
     
+    // MARK: - Рахунок та пауза
+    func setLabel() {
+        scoreLabel = SKLabelNode(fontNamed: "Chalkduster")
+        scoreLabel.text = "Score: \(score)"
+        scoreLabel.horizontalAlignmentMode = .right
+        scoreLabel.position = CGPoint(x: self.frame.width - 20, y: self.frame.height - 40)
+        addChild(scoreLabel)
+    }
+    
+    func setPause() {
+        settingButton = SKSpriteNode(imageNamed: "pause-button")
+        settingButton.size.height = scoreLabel.frame.height
+        settingButton.size.width = settingButton.size.height
+        settingButton.anchorPoint = CGPoint(x: 0.0, y: 0.0)
+        settingButton.position = CGPoint(x: 20, y: self.frame.height - 40)
+        settingButton.zPosition = 99
+        settingButton.name = "pause"
+        addChild(settingButton)
+    }
+    
+    
     // MARK: - Сніг
     func createGeneralSnow() {
         let generalSnow = SKEmitterNode(fileNamed: "GeneralSnow.sks")!
@@ -326,6 +331,20 @@ class GameScene: SKScene {
         generalSnowObjeckt.addChild(generalSnow)
         generalSnow.position = CGPoint(x: self.frame.midX, y: self.frame.maxY)
         generalSnow.advanceSimulationTime(50)
+    }
+    
+    
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        let location = touches.first!.location(in: self)
+        let node = self.atPoint(location)
+        
+        if node.name == "pause" {
+            let tranzition = SKTransition.doorsOpenHorizontal(withDuration: 1.0)
+            let pauseScene = PauseScene(size: (self.view?.frame.size)!)
+            pauseScene.scaleMode = .aspectFill
+            self.scene?.view?.presentScene(pauseScene, transition: tranzition)
+        }
     }
 }
 

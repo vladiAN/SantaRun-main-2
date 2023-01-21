@@ -10,6 +10,18 @@ import SpriteKit
 
 extension GameScene {
     
+    func swipe() {
+        
+        let swipeUp = UISwipeGestureRecognizer(target: self, action: #selector(swipeUp))
+        swipeUp.direction = .up
+        view?.addGestureRecognizer(swipeUp)
+        
+        let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(swipeDown))
+        swipeDown.direction = .down
+        view?.addGestureRecognizer(swipeDown)
+        
+    }
+    
     func setupHeroForSwipe() {
         hero.physicsBody?.velocity = CGVector.zero
         hero.physicsBody?.allowsRotation = false

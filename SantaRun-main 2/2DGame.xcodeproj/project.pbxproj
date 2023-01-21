@@ -19,6 +19,7 @@
 		93A91FD8296B706C00E6E51C /* GeneralSnow.sks in Resources */ = {isa = PBXBuildFile; fileRef = 93A91FD6296B706C00E6E51C /* GeneralSnow.sks */; };
 		93A91FD9296B706C00E6E51C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 93A91FD7296B706C00E6E51C /* Assets.xcassets */; };
 		C04A0D9D2979B7E2002F6B0D /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04A0D9C2979B7E2002F6B0D /* MenuScene.swift */; };
+		C0D8B7DA297C976900C391DF /* PauseScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0D8B7D9297C976900C391DF /* PauseScene.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -35,6 +36,7 @@
 		93A91FD6296B706C00E6E51C /* GeneralSnow.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GeneralSnow.sks; sourceTree = "<group>"; };
 		93A91FD7296B706C00E6E51C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		C04A0D9C2979B7E2002F6B0D /* MenuScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
+		C0D8B7D9297C976900C391DF /* PauseScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PauseScene.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -73,6 +75,7 @@
 				93A4DDD42966E81B0054117D /* GameScene.sks */,
 				93A4DDD62966E81B0054117D /* Actions.sks */,
 				C04A0D9C2979B7E2002F6B0D /* MenuScene.swift */,
+				C0D8B7D9297C976900C391DF /* PauseScene.swift */,
 				93A4DDD82966E81B0054117D /* GameScene.swift */,
 				93A4DDDA2966E81B0054117D /* GameViewController.swift */,
 				93A5264829683497005B4066 /* GameToches.swift */,
@@ -163,6 +166,7 @@
 				C04A0D9D2979B7E2002F6B0D /* MenuScene.swift in Sources */,
 				93A4DDD32966E81B0054117D /* AppDelegate.swift in Sources */,
 				93A5264929683497005B4066 /* GameToches.swift in Sources */,
+				C0D8B7DA297C976900C391DF /* PauseScene.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
