@@ -17,15 +17,19 @@ class MenuScene: SKScene {
         
         logo.size.height = logo.size.height / 2
         logo.size.width = logo.size.width / 2
+        
         logo.position = CGPoint(x: self.frame.midX, y: self.frame.maxY - (logo.frame.height / 2) - 16 )
         self.addChild(logo)
         
-        let button1 = ButtonNode(title: "play", backgroundName: "Button")
-        button1.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
-        button1.name = "play"
-        button1.label.name = "play"
+        let titles = ["play", "options", "records"]
         
-        addChild(button1)
+        for (index, title) in titles.enumerated() {
+            let button = ButtonNode(title: title, backgroundName: "Button")
+            button.position = CGPoint(x: self.frame.midX, y: logo.frame.minY - 50 - CGFloat(75 * index))
+            button.name = title
+            button.label.name = title
+            addChild(button)
+        }
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -54,7 +58,7 @@ class ButtonNode: SKSpriteNode {
     
     init(title: String, backgroundName: String) {
         let texture = SKTexture(imageNamed: backgroundName)
-        super.init(texture: texture, color: .clear, size: texture.size())
+        super.init(texture: texture, color: .clear, size: CGSize(width: texture.size().width / 2, height: texture.size().height / 2))
         label.text = title.uppercased()
         addChild(label)
     }
