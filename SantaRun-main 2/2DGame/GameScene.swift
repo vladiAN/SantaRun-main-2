@@ -31,6 +31,10 @@ class GameScene: SKScene {
     var bird = SKSpriteNode()
     var presentBox = SKSpriteNode()
     
+    let life1 = SKSpriteNode(imageNamed: "life")
+    let life2 = SKSpriteNode(imageNamed: "life")
+    let life3 = SKSpriteNode(imageNamed: "life")
+    
     var bgObjeckt = SKNode()
     var heroObjeckt = SKNode()
     var groundObjeckt = SKNode()
@@ -69,6 +73,9 @@ class GameScene: SKScene {
         
         physicsWorld.contactDelegate = self
         
+
+        
+        
         bgTexture = SKTexture(imageNamed: "bg winter")
         heroTexture = SKTexture(imageNamed: "Run (2)")
         snowManTexture = SKTexture(imageNamed: "SnowManIdle1")
@@ -101,6 +108,7 @@ class GameScene: SKScene {
         createEnemy()
         setLabel()
         setPause()
+        setLife()
         
         swipe()
         
@@ -322,6 +330,17 @@ class GameScene: SKScene {
         settingButton.name = "pause"
         addChild(settingButton)
     }
+    
+    func setLife() {
+        let lifes = [life1, life2, life3]
+        for (index, life) in lifes.enumerated() {
+            life.position = CGPoint(x: self.frame.midX - CGFloat(index + 1) * (life.size.width + 5), y: self.frame.midY)
+            life.zPosition = 99
+            life.anchorPoint = CGPoint(x: 0.0, y: 0.0)
+            addChild(life)
+        }
+    }
+
     
     
     // MARK: - Сніг

@@ -11,7 +11,17 @@ class PauseScene: SKScene {
 
     override func didMove(to view: SKView) {
         
-        self.backgroundColor = SKColor(red: 0.2745, green: 0.498, blue: 0.6235, alpha: 1.0)
+        let bg = SKSpriteNode(imageNamed: "bg winter")
+        bg.size.height = self.frame.height
+        bg.anchorPoint = CGPoint(x: 0.0, y: 0.0)
+        bg.zPosition = -99
+        addChild(bg)
+        
+        let generalSnow = SKEmitterNode(fileNamed: "GeneralSnow.sks")!
+        generalSnow.position = CGPoint(x: self.frame.midX, y: self.frame.maxY)
+        generalSnow.advanceSimulationTime(50)
+        generalSnow.zPosition = 1
+        addChild(generalSnow)
         
         let header = ButtonNode(title: "pause", backgroundName: "headerPause")
         
