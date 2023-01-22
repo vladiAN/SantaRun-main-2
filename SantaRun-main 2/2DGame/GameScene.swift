@@ -31,9 +31,6 @@ class GameScene: SKScene {
     var bird = SKSpriteNode()
     var presentBox = SKSpriteNode()
     
-    let life1 = SKSpriteNode(imageNamed: "life")
-    let life2 = SKSpriteNode(imageNamed: "life")
-    let life3 = SKSpriteNode(imageNamed: "life")
     
     var bgObjeckt = SKNode()
     var heroObjeckt = SKNode()
@@ -332,9 +329,17 @@ class GameScene: SKScene {
     }
     
     func setLife() {
+        
+        let lifeHeart = SKTexture(imageNamed: "life")
+
+        let life1 = SKSpriteNode(texture: lifeHeart, size: settingButton.size)
+        let life2 = SKSpriteNode(texture: lifeHeart, size: settingButton.size)
+        let life3 = SKSpriteNode(texture: lifeHeart, size: settingButton.size)
+        
+        
         let lifes = [life1, life2, life3]
         for (index, life) in lifes.enumerated() {
-            life.position = CGPoint(x: self.frame.midX - CGFloat(index + 1) * (life.size.width + 5), y: self.frame.midY)
+            life.position = CGPoint(x: self.frame.midX - CGFloat(index + 1) * (life.size.width + 5), y: self.frame.height - 40)
             life.zPosition = 99
             life.anchorPoint = CGPoint(x: 0.0, y: 0.0)
             addChild(life)

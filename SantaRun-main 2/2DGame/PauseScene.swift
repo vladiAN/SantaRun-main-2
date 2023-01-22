@@ -52,6 +52,11 @@ class PauseScene: SKScene {
             let gameScene = GameScene(size: (self.view?.frame.size)!)
             gameScene.scaleMode = .aspectFill
             self.scene?.view?.presentScene(gameScene, transition: tranzition)
+        } else if node.name == "resume" {
+            let tranzition = SKTransition.crossFade(withDuration: 1.0)
+            let gameScene = GameScene(size: (self.view?.frame.size)!)
+            gameScene.scaleMode = .aspectFill
+            self.scene?.view?.presentScene(gameScene, transition: tranzition)
         }
     }
 }
