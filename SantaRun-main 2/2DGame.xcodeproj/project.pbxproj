@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		93A02650297DF09600EB53E9 /* SceneManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93A0264F297DF09600EB53E9 /* SceneManager.swift */; };
 		93A4DDD32966E81B0054117D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 93A4DDD22966E81B0054117D /* AppDelegate.swift */; };
 		93A4DDD52966E81B0054117D /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 93A4DDD42966E81B0054117D /* GameScene.sks */; };
 		93A4DDD72966E81B0054117D /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = 93A4DDD62966E81B0054117D /* Actions.sks */; };
@@ -23,6 +24,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		93A0264F297DF09600EB53E9 /* SceneManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneManager.swift; sourceTree = "<group>"; };
 		93A4DDCF2966E81B0054117D /* 2DGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = 2DGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		93A4DDD22966E81B0054117D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		93A4DDD42966E81B0054117D /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
@@ -79,6 +81,7 @@
 				93A4DDD82966E81B0054117D /* GameScene.swift */,
 				93A4DDDA2966E81B0054117D /* GameViewController.swift */,
 				93A5264829683497005B4066 /* GameToches.swift */,
+				93A0264F297DF09600EB53E9 /* SceneManager.swift */,
 				93A4DDDC2966E81B0054117D /* Main.storyboard */,
 				93A4DDDF2966E81D0054117D /* Assets.xcassets */,
 				93A4DDE12966E81D0054117D /* LaunchScreen.storyboard */,
@@ -164,6 +167,7 @@
 				93A4DDD92966E81B0054117D /* GameScene.swift in Sources */,
 				93A4DDDB2966E81B0054117D /* GameViewController.swift in Sources */,
 				C04A0D9D2979B7E2002F6B0D /* MenuScene.swift in Sources */,
+				93A02650297DF09600EB53E9 /* SceneManager.swift in Sources */,
 				93A4DDD32966E81B0054117D /* AppDelegate.swift in Sources */,
 				93A5264929683497005B4066 /* GameToches.swift in Sources */,
 				C0D8B7DA297C976900C391DF /* PauseScene.swift in Sources */,

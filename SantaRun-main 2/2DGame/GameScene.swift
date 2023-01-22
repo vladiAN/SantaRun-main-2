@@ -17,6 +17,8 @@ struct BitMasks {
 
 class GameScene: SKScene {
     
+    let sceneManager = SceneManager.shared
+    
     var bgTexture: SKTexture!
     var heroTexture: SKTexture!
     var snowManTexture: SKTexture!
@@ -48,6 +50,33 @@ class GameScene: SKScene {
         }
     }
     
+    let lifeHeart = SKTexture(imageNamed: "life")
+
+    var life1 = SKSpriteNode()
+    var life2 = SKSpriteNode()
+    var life3 = SKSpriteNode()
+    
+    var lives = 3 {
+        didSet{
+            switch lives {
+            case 3:
+                life1.isHidden = false
+                life2.isHidden = false
+                life3.isHidden = false
+            case 2:
+                life1.isHidden = false
+                life2.isHidden = false
+                life3.isHidden = true
+            case 1:
+                life1.isHidden = false
+                life2.isHidden = true
+                life3.isHidden = true
+            default:
+                break
+            }
+        }
+    }
+    
     var onGround = true
     
     var heroRunTextureArray = Array(1...11).map { int in
@@ -67,12 +96,14 @@ class GameScene: SKScene {
     }
     
     override func didMove(to view: SKView) {
+        self.scene?.isPaused = false
+        
+        guard sceneManager.gameScene == nil else {return}
+        
+        sceneManager.gameScene = self
         
         physicsWorld.contactDelegate = self
-        
-
-        
-        
+  
         bgTexture = SKTexture(imageNamed: "bg winter")
         heroTexture = SKTexture(imageNamed: "Run (2)")
         snowManTexture = SKTexture(imageNamed: "SnowManIdle1")
@@ -308,7 +339,7 @@ class GameScene: SKScene {
     }
     
     
-    // MARK: - Рахунок та пауза
+    // MARK: - Рахунок, пауза та життя
     func setLabel() {
         scoreLabel = SKLabelNode(fontNamed: "Chalkduster")
         scoreLabel.text = "Score: \(score)"
@@ -330,12 +361,9 @@ class GameScene: SKScene {
     
     func setLife() {
         
-        let lifeHeart = SKTexture(imageNamed: "life")
-
-        let life1 = SKSpriteNode(texture: lifeHeart, size: settingButton.size)
-        let life2 = SKSpriteNode(texture: lifeHeart, size: settingButton.size)
-        let life3 = SKSpriteNode(texture: lifeHeart, size: settingButton.size)
-        
+        life1 = SKSpriteNode(texture: lifeHeart, size: settingButton.size)
+        life2 = SKSpriteNode(texture: lifeHeart, size: settingButton.size)
+        life3 = SKSpriteNode(texture: lifeHeart, size: settingButton.size)
         
         let lifes = [life1, life2, life3]
         for (index, life) in lifes.enumerated() {
@@ -367,6 +395,8 @@ class GameScene: SKScene {
             let tranzition = SKTransition.doorsOpenHorizontal(withDuration: 1.0)
             let pauseScene = PauseScene(size: (self.view?.frame.size)!)
             pauseScene.scaleMode = .aspectFill
+            sceneManager.gameScene = self
+            self.scene?.isPaused = true
             self.scene?.view?.presentScene(pauseScene, transition: tranzition)
         }
     }
@@ -395,6 +425,7 @@ extension GameScene: SKPhysicsContactDelegate {
                 SKAction.colorize(withColorBlendFactor: 0.0, duration: 0.15)
             ])
             hero.run(pulsedRed)
+            lives -= 1
         case BitMasks.presentBox:
             if enotherBody.node?.parent != nil {
                 enotherBody.node?.removeFromParent()
@@ -404,6 +435,10 @@ extension GameScene: SKPhysicsContactDelegate {
             
         default:
             print("contact unknown")
+            
+        }
+        
+        if lives == 0 {
             
         }
     }

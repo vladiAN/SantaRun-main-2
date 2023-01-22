@@ -8,6 +8,8 @@
 import SpriteKit
 
 class PauseScene: SKScene {
+    
+    let sceneManager = SceneManager.shared
 
     override func didMove(to view: SKView) {
         
@@ -43,18 +45,30 @@ class PauseScene: SKScene {
         
     }
     
+    override func update(_ currentTime: TimeInterval) {
+        if let gameScene = sceneManager.gameScene {
+            if !gameScene.isPaused {
+                gameScene.isPaused = true
+                
+            }
+        }
+    }
+    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         let location = touches.first!.location(in: self)
         let node = self.atPoint(location)
         
         if node.name == "restart" {
-            let tranzition = SKTransition.crossFade(withDuration: 1.0)
+            sceneManager.gameScene = nil
+            let tranzition = SKTransition.fade(withDuration: 1.0)
             let gameScene = GameScene(size: (self.view?.frame.size)!)
             gameScene.scaleMode = .aspectFill
             self.scene?.view?.presentScene(gameScene, transition: tranzition)
+            
         } else if node.name == "resume" {
+            
             let tranzition = SKTransition.crossFade(withDuration: 1.0)
-            let gameScene = GameScene(size: (self.view?.frame.size)!)
+            guard let gameScene = sceneManager.gameScene else {return}
             gameScene.scaleMode = .aspectFill
             self.scene?.view?.presentScene(gameScene, transition: tranzition)
         }
